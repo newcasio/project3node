@@ -3,10 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
-//routes to the middleware chain
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var bodyParser = require('body-parser');
+var passport = require('passport');
 
 //allow cross origin queries
 const cors = require('cors');
@@ -35,11 +33,22 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+//routes to the middleware chain
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+// var secureRoute = require('./routes/users-secure')
+
 //router middleware stack
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+// app.use('/profile', passport.authenticate('jwt',{session:false}), secureRoute);
 
 
+//auth
+// require('./auth/auth');
+//
+// app.use(bodyParser.urlencoded({extended: false}));
 
 
 // catch 404 and forward to error handler

@@ -1,4 +1,6 @@
 var express = require('express');
+var passport = require('passport');
+var jwt = require('jsonwebtoken');
 var router = express.Router();
 
 
@@ -23,7 +25,8 @@ var user_controller = require('../controllers/userController');
 
 
 //GET request for specific user
-router.get('/profile', user_controller.user_detail);
+router.get('/profile/:email', user_controller.user_detail);
+router.post('/profile', user_controller.user_detail);
 
 //GET request for creating user
 router.get('/create', user_controller.user_create_get);
