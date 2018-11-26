@@ -42,13 +42,7 @@ var usersRouter = require('./routes/users');
 //router middleware stack
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-// app.use('/profile', passport.authenticate('jwt',{session:false}), secureRoute);
 
-
-//auth
-// require('./auth/auth');
-//
-// app.use(bodyParser.urlencoded({extended: false}));
 
 
 // catch 404 and forward to error handler
