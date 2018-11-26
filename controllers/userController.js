@@ -79,5 +79,14 @@ exports.user_update_get = function(req,res){
 
 //handle user update POST
 exports.user_update_post = function(req,res){
-  res.send('Not implemented: User update POST');
+  // res.send(req.body);
+  User.findOne({email:req.body.dataToSend.currentUser}, function(err, user){
+    // res.send(user.books);   //returns an array of objects
+    // res.send(req.body.dataToSend.groupedInfo);         //book object
+    user.books.push(req.body.dataToSend.groupedInfo);
+    // res.send(user.books);     //show book added to array
+    user.save();        //save modified object
+
+  })
+
 };

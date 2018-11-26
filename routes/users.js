@@ -34,9 +34,9 @@ router.get('/create', user_controller.user_create_get);
 router.post('/create', user_controller.user_create_post);
 
 //Get request for updating user
-router.get('/:id/update', user_controller.user_update_get);
+router.get('/profile/:email/update', user_controller.user_update_get);
 //POST request for creating user
-router.get('/:id/update', user_controller.user_update_post);
+router.post('/profile/:email/update', user_controller.user_update_post);
 
 
 module.exports = router;
