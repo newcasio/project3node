@@ -42,6 +42,20 @@ exports.user_detail = function(req,res){
 //   })(req, res, next);
 // };
 
+exports.user_detail_del = function(req,res){
+  let toDelete = req.body.dataToSend;
+  // res.send(toDelete.user);
+  // console.log(toDelete.bookToDelete);
+  User.findOne({email: toDelete.user}, function(req,unit){
+    // console.log(res.books);       //returns user object.books array of objects
+    let index = unit.books.findIndex(x=>x.id == toDelete.bookToDelete.id);     //index of book to be deleted
+    unit.books.splice(index, 1);
+    unit.save();
+    res.json({saved: true});
+    // console.log(res.books);
+  })
+}
+
 
 //display user create form on GET
 exports.user_create_get = function(req,res){
@@ -86,7 +100,8 @@ exports.user_update_post = function(req,res){
     user.books.push(req.body.dataToSend.groupedInfo);
     // res.send(user.books);     //show book added to array
     user.save();        //save modified object
+    res.json({saved: true});
+  });
 
-  })
 
 };
