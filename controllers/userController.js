@@ -5,9 +5,13 @@ var router = express.Router();
 
 var User = require('../models/user');
 
-//package express-validator used to validate and sanitize data submitted via forms
-const { body,validationResult } = require('express-validator/check');
-const { sanitizeBody } = require('express-validator/filter');
+
+signToken = user=>{
+  return jwt.sign({        //create token.  the object here is the payload of the JWT
+    sub: user.id,
+    exp: new Date().setDate(new Date().getDate()+1)   //current date plus 1
+  },'chicken');            //secret key
+}
 
 
 //These are functions that are associated with the routes in the routes/user.js file.
@@ -47,14 +51,28 @@ exports.user_create_get = function(req,res){
 //handle user create on POST
 exports.user_create_post = function(req,res){
   // res.send(req.body)
+  // console.log(req.body);
+
   var newUser = new User({
-    email: req.body.dataToSend.email,
-    password: req.body.dataToSend.password
+    email: req.body.email,
+    password: req.body.password
   });
+  //want to hash password before save below.  This will be done in the models/users file.
   newUser.save(function(err){
-    if (err) throw err;
-    res.send('User created successfully')
-  })
+    if (err) throw (err);
+    // res.send('User created successfully')
+    const token= signToken(newUser);
+    res.status(200).json({token});
+  });
+
+  //generate token
+};
+
+exports.user_signIn = function(req,res){
+  //create new token, using the current user object
+  const token = signToken(req.user);
+  res.status(200).json({token})
+
 };
 
 
