@@ -17,6 +17,7 @@ var user_controller = require('../controllers/userController');
 
 
 
+
 //all these routes are begin with 'users'
 //when any of these routes are requested, function in userController.js run.
 
@@ -24,8 +25,11 @@ var user_controller = require('../controllers/userController');
 
 //GET request for specific user
 // router.get('/profile/:email', (passport.authenticate('jwt', {session:false}), user_controller.user_detail));
+
 router.route('/profile/:email')
   .get(passport.authenticate('jwt', {session:false}),user_controller.user_detail);
+
+// router.get('/profile/:email', user_controller.user_detail);
 
 router.route('/profile/:email/bookdel')
   .get(passport.authenticate('jwt', {session:false}),user_controller.user_detail_del);
@@ -43,9 +47,16 @@ router.route('/signIn')
 //Get request for updating user
 router.route('/profile/:email/update')
   .get(passport.authenticate('jwt', {session:false}),user_controller.user_update_get);
+
+
+
 //POST request for creating user
 router.route('/profile/:email/update')
-.get(passport.authenticate('jwt', {session:false}),user_controller.user_update_post);
+.post(passport.authenticate('jwt', {session:false}),user_controller.user_update_post);
+
+// router.post('/profile/:email/update', function(req, res, next) {
+//   res.send('))))))))))))))))))))))))))))))))))))))))))))')
+// });
 
 
 module.exports = router;
