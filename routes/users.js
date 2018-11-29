@@ -22,33 +22,25 @@ var user_controller = require('../controllers/userController');
 //GET request for specific user
 // router.get('/profile/:email', (passport.authenticate('jwt', {session:false}), user_controller.user_detail));
 
-router.route('/profile/:email')
+router.route('/profile')
   .get(passport.authenticate('jwt', {session:false}),user_controller.user_detail);
 
 // router.get('/profile/:email', user_controller.user_detail);
 
-router.route('/profile/:email/bookdel')
+router.route('/profile/bookdel')
   .post(passport.authenticate('jwt', {session:false}),user_controller.user_detail_del);
 
 
-//GET request for creating user
-router.get('/create', user_controller.user_create_get);
 //POST request for creating user
 router.post('/create', user_controller.user_create_post);
+
 //user sign in
-// router.route('/signIn')
-//   .post(passport.authenticate('local', {session:false}),user_controller.user_signIn);
 router.post('/signIn', user_controller.user_signIn);
 
 
-//Get request for updating user
-router.route('/profile/:email/update')
-  .get(passport.authenticate('jwt', {session:false}),user_controller.user_update_get);
-
-
-
 //POST request for updating user   ADD TO READING LIST
-router.route('/profile/:email/update')
+router.route('/profile/update')
+// router.route('/profile/:email/update')
 .post(passport.authenticate('jwt', {session:false}),user_controller.user_update_post);
 
 // router.post('/profile/:email/update', function(req, res, next) {
