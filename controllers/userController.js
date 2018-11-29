@@ -69,11 +69,30 @@ exports.user_create_post = function(req,res){
 };
 
 exports.user_signIn = function(req,res){
-  //create new token, using the current user object
-  const token = signToken(req.user);
-  res.status(200).json({token})
-
+  User.findOne({email:req.body.email}, function(err,user){
+    if(user==null){
+      res.err('no user found')
+    }else{
+      console.log('creating a token');
+      //create new token, using the current user object
+      const token = signToken(req.body);
+      res.status(200).json({token})
+    }
+    // console.log(`user object:${user}`);
+  })
 };
+// exports.user_signIn = function(req,res){
+//   User.findOne({email:req.body.email}, function(err,user){
+//     if(!user){
+//       res.send('no user found')
+//     }else{
+//       console.log('creating a token');
+//       //create new token, using the current user object
+//       const token = signToken(req.body);
+//       res.status(200).json({token})
+//     }
+//   })
+// };
 
 
 //display user update form on GET

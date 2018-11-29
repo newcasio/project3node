@@ -1,3 +1,4 @@
+
 const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
 const { ExtractJwt } = require('passport-jwt');
@@ -11,29 +12,52 @@ console.log('WE ARE HERE');
 
 //JWT Strategy
 //.use to use middleware, specify strategy for passport, and initialize.
+// passport.use(new JwtStrategy({
+//    jwtFromRequest: ExtractJwt.fromHeader('authorization'), //where the token is contained
+//    secretOrKey: 'chicken'                //secret key initially stated in userController when creating new user
+// }, async(payload,done)=>{
+//   console.log('%cIN PASSPORT JWT STRATEGY', 'color: green; font-size: 16pt');
+//   try{
+//     //find the user specified in token
+//     const user = await User.findById(payload.sub);
+//
+//     console.log('passport JWT strategy user:', user);
+//
+//     //if user does not exist handle it
+//     if (!user){
+//       return done(null, false);
+//     }
+//
+//     //otherwise return user
+//     done(null, user);
+//   }catch(error){
+//     console.error('passport JWT strategy ERROR:', error);
+//     done(error, false);
+//   }
+// }));
 passport.use(new JwtStrategy({
-   jwtFromRequest: ExtractJwt.fromHeader('Authorization'), //where the token is contained
-   secretOrKey: 'chicken'                //secret key initially stated in userController when creating new user
-}, async(payload,done)=>{
+  // jwtFromRequest: ExtractJwt.fromHeader('authorization'),
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: 'chicken'
+}, async (payload, done) => {
   console.log('%cIN PASSPORT JWT STRATEGY', 'color: green; font-size: 16pt');
-  try{
-    //find the user specified in token
+  try {
+    // Find the user specified in token
     const user = await User.findById(payload.sub);
 
-    console.log('passport JWT strategy user:', user);
-
-    //if user does not exist handle it
-    if (!user){
+    // If user doesn't exists, handle it
+    if (!user) {
       return done(null, false);
     }
 
-    //otherwise return user
+    // Otherwise, return the user
     done(null, user);
-  }catch(error){
-    console.error('passport JWT strategy ERROR:', error);
+  } catch(error) {
     done(error, false);
   }
 }));
+
+
 
 
 //Local Strategy
